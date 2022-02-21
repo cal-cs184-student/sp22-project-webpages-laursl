@@ -4,13 +4,49 @@
 	<body>
 		<h2>
 		Project 1
-	</h2>
+		</h2>
 		<h3>
-		Overview
-	</h3>
+			Overview
+		</h3>
 		<p> With this project I was able to implement a simple rasterizer using techniques from lecture. This included drawing
 			triangles, supersampling, transforms, and texture mapping. I think what was interesting was after this project I feel 
 			I have a strong grasp on what supersampling is because I spent so long debugging it.
+		</p>
+		<h3>
+			Task 1
+		</h3>
+		<p> You rasterize triangles by deciding if a pixel should be colored. This is done by determining if the center of the pixel falls within the bounds of the triangle, which is done by checking if the pixel is on the "right side" of all three vectors that form the triangle's sides.
+			My algorithm finds the smallest and largest x and y coordinates from the triangle’s vertices and checks each sample within that range. This forms the bounding box of the triangle and so my algorithm is no worse than one that checks each sample within the bounding box of the triangle
+		</p>
+		<img src="task1.png" alt="task1 photo">
+
+		<h3>
+			Task 2
+		</h3>
+		<p> For each pixel, I divided it into a number of squares equal to the sample_rate, and sampled the center of each small square. I then averaged the colors when downsamping. My sample_buffer was structured so that it was height * width * sample_size in size, but was indexed as if it were a 2d array of height * (sample size * width). 
+		</p>
+		<h3>
+			Task 3
+		</h3>
+		<p> 
+			The cubeman is supposed to be dancing.
+		</p>
+		<h3>
+			Task 4
+		</h3>
+		<p> 
+
+		</p>
+		<h5>
+			Task 5
+		</h3>
+		<p> 
+			I used barycentric interpolation to get the correct (u,v) coordinates that corresponded to each (x,y) coordinate in the frame. I then got the texel. With nearest pixel sampling, I just directly used the (u,v) and got the corresponding texel from the mipmap. For bilinear sampling, I found the 4 nearest pixels and did 3 linear interpolations to get the color. There will probably be a large difference between the two methods when the texture is varying at a high frequency, as bilinear sampling will smooth the differences. 
+		</p>
+		<h3>
+			Task 6
+		</h3>
+		<p> 
 		</p>
 	</body>
 </html>
