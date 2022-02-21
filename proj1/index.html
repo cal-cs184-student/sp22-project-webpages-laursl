@@ -6,6 +6,9 @@
 		Project 1
 		</h2>
 		<h3>
+			Link: https://cal-cs184-student.github.io/sp22-project-webpages-laursl/proj1/index.html
+		</h3>
+		<h3>
 			Overview
 		</h3>
 		<p> With this project I was able to implement a simple rasterizer using techniques from lecture. This included drawing
@@ -25,23 +28,39 @@
 		</h3>
 		<p> For each pixel, I divided it into a number of squares equal to the sample_rate, and sampled the center of each small square. I then averaged the colors when downsamping. My sample_buffer was structured so that it was height * width * sample_size in size, but was indexed as if it were a 2d array of height * (sample size * width). 
 		</p>
+		<h5>
+			sample rate 1
+		</h5>
+			<img src="task2_1.png" alt="task1 photo">
+		<h5>
+			sample rate 4
+		</h5>
+			<img src="task2_4.png" alt="task1 photo">
+		<h5>
+			sample rate 16
+		</h5>
+			<img src="task2_16.png" alt="task1 photo">
 		<h3>
 			Task 3
 		</h3>
 		<p> 
 			The cubeman is supposed to be dancing.
 		</p>
+			<img src="task3.png" alt="task1 photo">
 		<h3>
 			Task 4
 		</h3>
 		<p> 
-
+			Barycentric coordinates express the location of a point within a triangle as relative to the vertices.
 		</p>
-		<h5>
+			<img src="task4.png" alt="task1 photo">
+		<h3>
 			Task 5
 		</h3>
 		<p> 
 			I used barycentric interpolation to get the correct (u,v) coordinates that corresponded to each (x,y) coordinate in the frame. I then got the texel. With nearest pixel sampling, I just directly used the (u,v) and got the corresponding texel from the mipmap. For bilinear sampling, I found the 4 nearest pixels and did 3 linear interpolations to get the color. There will probably be a large difference between the two methods when the texture is varying at a high frequency, as bilinear sampling will smooth the differences. 
+
+			I couldn't really tell the difference between bilinear sampling and nearest pixel sampling in my images. 
 		</p>
 		<h3>
 			Task 6
