@@ -2,6 +2,121 @@
 	<head>
 	</head>
 	<body>
-		Project 3-2 here
+		<h2>
+		Project 3-2
+		</h2>
+		<h3>
+			Link: https://cal-cs184-student.github.io/sp22-project-webpages-laursl/proj3-2/index.html
+		</h3>
+		<h3>
+			Overview
+		</h3>
+		<p> 
+			This project extended 3-1 to allow me to render various other scenes and play with camera lenses. I chose tasks 2 and 4.
+		</p>
+		<h3>
+			Part 2
+		</h3>
+			<h4>Implementation
+		</h4>
+			<p> 
+			For this part, the implementation was pretty straightforward when following the spec. Some places that tripped me up were I hardcoded eta and etaK for a while before I realized I needed to use the variables. For a long time my scene was rendering with the spheres black, so I spent some time going over each function, and I realized I was creating my h vector incorrectly by using p_theta and p_phi instead of theta and phi.
+			</p>
+			</p>
+			<p> 
+			For task 1, this equation was given in the spec.
+			</p>
+			<img src="sc1.png" alt="task1 photo">
+			</p>
+			<p> 
+			Since n is the vector (0, 0, 1), (n * w) ends up being just the z portion of w, or cos_theta(w).
+			</p>
+			<p> 
+			For task 2, to calculate the NDF, this equation was given in the spec.
+			</p>
+			<img src="sc2.png" alt="task1 photo">
+			<p> 
+			The NDF defines how the microfacets' normals are distributed. Theta in this equation is the angle between h and n, but because, n is the vector (0, 0, 1), theta ends up being the cosine inverse of the z-axis portion of h.
+			Since n is the vector (0, 0, 1), (n * w) ends up being just the z portion of w, or cos_theta(w).
+		</p>
+			<p> 
+			For task 3, to calculate the Fresnel term, this equation was given in the spec, which is the Fresnel term for the R, G, and B channels.
+			</p>
+			<img src="sc3.png" alt="task1 photo">
+			<p> 
+			Theta is the angle between wi and n, making it cosine inverse of the z portion of wi. Other than that, following the equations was straightforward, except for a short period where I was hard coding the eta and k values.
+		</p>
+			<p> 
+			For task 4, to implement the BRDF sampling function, these equations were given.
+			</p>
+			<img src="sc4.png" alt="task1 photo">
+			<img src="sc5.png" alt="task1 photo">
+			<p> 
+			We use pdfs p_theta and p_phi and the result of integrating and inversing them, theta and phi, to get h.
+		</p>
+			<img src="sc6.png" alt="task1 photo">
+			<img src="sc7.png" alt="task1 photo">
+		<p> Then we reflect wo according to h to get the sampled wi. From there, we calculate p_w(h), which is the pdf of sampling h w.r.t solid angle, and then p_w(wi), which is the final pdf of samping wi w.r.t solid angle. Then we return the result of calling MicrofacetBSDF::f on wo and the sampled wi. The main challenges in this area for me was first, I forgot the arctan on theta for a bit. I also mixed up theta and p_theta with p_theta and phi when calculating h. I calculated h using 
+			<a href=https://en.wikipedia.org/wiki/Spherical_coordinate_system>this equation</a> from Wikipedia.
+			</p>
+			<img src="sc8.png" alt="task1 photo">
+			<p> 
+			I used 
+			<a href=https://math.stackexchange.com/questions/13261/how-to-get-a-reflection-vector>this equation</a> to reflect wo to get wi. 
+			</p>
+			<img src="sc9.png" alt="task1 photo">
+		<h4>
+			Show a sequence of 4 images of scene CBdragon_microfacet_au.dae rendered with alpha set to 0.005, 0.05, 0.25 and 0.5. The other settings are 128 samples per pixel and 1 samples per light. The number of bounces is 5.
+		</h4>
+			<p> 
+			As alpha increases, the amount of noise decreases and the surface becomes more matte and appears less smooth.
+		</p>
+			<img src="dragon_1.png" alt="task1 photo">
+			<img src="dragon_2.png" alt="task1 photo">
+			<img src="dragon_3.png" alt="task1 photo">
+			<img src="dragon_4.png" alt="task1 photo">
+		<h4>
+			Show two images of scene CBbunny_microfacet_cu.dae rendered using cosine hemisphere sampling (default) and your importance sampling. The sampling rate is 64 samples per pixel and 1 samples per light. The number of bounces is 5. Briefly discuss their difference.
+		</h4>
+		<img src="bunny_2.png" alt="task1 photo">
+		<img src="bunny_1.png" alt="task1 photo">
+
+		<p>
+			With the importance sampling (shown second), the image looks much more realistic to copper and has less noise. In addition, cosine hemisphere sampling looks a lot darker for some reason. I don't know if this is expected.
+		</p>
+		<h4>
+			Show at least one image with some other conductor material, replacing eta and k. Note that you should look up values for real data rather than modifying them arbitrarily. Tell us what kind of material your parameters correspond to.
+		</h4>
+		<p>
+			I used silver with CBdragon_microfacet_cu.dae. The values for eta are (0.059193, 0.059881, 0.047366) and for k are (4.1283, 3.5892, 2.8132)
+		</p>
+		<img src="dragon_silver.png" alt="task1 photo">
+		<h3>
+			Part 4
+		</h3>
+		<h4>
+			Implementation
+		</h4>
+		<p> For this task, I followed the spec and it turned out to be simpler than I thought. I took my code from 3-1 to get the direction that the camera was pointing. Then I uniformly sampled the disk representing the thin lens, and found pfocus, with is the camera_position * focal distance - (sample on lens). I then normalized pfocus and created a new ray that began at the sample on the lens and headed in the direction of pfocus. </p>
+		<h4>
+			Pinhole camera model vs. thin-lens camera model
+		</h4>
+		<p> 
+			With a Pinhole camera, the entire image is always in focus while with a thin-lens camera model, the focus is changed by adjusting the focal length and and lens radius and depending on the aperture, the whole scene may not be in focus. In a Pinhole camera, the amount of light entering is fixed, while in a thin-lens camera, the amount of light can be varied by changing the aperture.
+		</p>
+		<h4>
+			Focus stack for CBdragon_microfacet_au.dae. The focus points are the snout, neck, middle of the body, then tail of the dragon.
+		</h4>
+		<img src="CBdragon_1.png" alt="task2 photo">
+		<img src="CBdragon_2.png" alt="task2 photo">
+		<img src="CBdragon_3.png" alt="task2 photo">
+		<img src="CBdragon_4.png" alt="task2 photo">
+		<h4>
+			Decreasing the aperture while focusing on the same point. As aperture decreases, less of the image is in focus.
+		</h4>
+		<img src="CBdragon_10.png" alt="task2 photo">
+		<img src="CBdragon_6.png" alt="task2 photo">
+		<img src="CBdragon_9.png" alt="task2 photo">
+
 	</body>
 </html>
